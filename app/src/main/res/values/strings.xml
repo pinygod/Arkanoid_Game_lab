@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Arkanoid Game</string>
+    <string name="ranking">RANKING</string>
+    <string name="game_name">Arkanoid</string>
+    <string name="play">PLAY</string>
+    <string name="game_score">Score: %1$d</string>
+    <string name="exit">EXIT</string>
+    <string name="restart">RESTART</string>
+    <string name="lost">YOU LOST!</string>
+</resources>
