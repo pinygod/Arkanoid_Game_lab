@@ -36,25 +36,17 @@
 
     <Button
         android:id="@+id/rankingButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/aldrich"
-        android:padding="20dp"
+        style="@style/button_style"
         android:text="@string/ranking"
-        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/playButton"
         app:layout_constraintStart_toStartOf="@+id/playButton"
         app:layout_constraintTop_toBottomOf="@+id/playButton" />
 
     <Button
         android:id="@+id/playButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/button_style"
         android:layout_marginTop="100dp"
-        android:fontFamily="@font/aldrich"
-        android:padding="20dp"
         android:text="@string/play"
-        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleLayout" />
