@@ -11,7 +11,13 @@
         android:theme="@style/Theme.Arkanoid_Game">
         <activity android:name=".RankingActivity"></activity>
         <activity android:name=".GameActivity" />
-        <activity android:name=".MenuActivity" />
+        <activity android:name=".MenuActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <meta-data
             android:name="preloaded_fonts"

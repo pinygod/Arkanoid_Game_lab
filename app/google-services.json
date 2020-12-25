@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "921963113537",
+    "project_id": "arkanoid-game",
+    "storage_bucket": "arkanoid-game.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:921963113537:android:f8b4d7ccd170463d07eac0",
+        "android_client_info": {
+          "package_name": "com.example.arkanoid_game"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "921963113537-qlfpb864mn0471p5j62lni3q0vlddkvd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRm3vKLx7iLSYBe77NpUYxQnZK1xOLXc4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "921963113537-qlfpb864mn0471p5j62lni3q0vlddkvd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
