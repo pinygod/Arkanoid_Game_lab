@@ -13,5 +13,8 @@ class MenuActivity : AppCompatActivity() {
         rankingButton.setOnClickListener {
             startActivity(Intent(this, RankingActivity::class.java))
         }
+        playButton.setOnClickListener {
+            startActivity(Intent(this, GameActivity::class.java))
+        }
     }
 }

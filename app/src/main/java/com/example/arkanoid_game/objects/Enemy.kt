@@ -2,10 +2,10 @@ package com.example.arkanoid_game.objects
 
 import android.graphics.Bitmap
 
-class Enemy(bitmap: Bitmap, private val cost: Int, var hp: Int, x: Int = 10, y: Int = 120) :
+class Enemy(bitmap: Bitmap, private val cost: Int, var hp: Int, x: Int = 10, y: Int = 110) :
     GameObject(bitmap) {
     companion object {
-        const val MARGIN = 15
+        const val MARGIN = 20
         var verticalVelocity = 0
     }
 
@@ -15,22 +15,24 @@ class Enemy(bitmap: Bitmap, private val cost: Int, var hp: Int, x: Int = 10, y: 
         reset()
     }
 
-    fun hit(): Int {
+    fun hit() {
         hp--
-        return if (hp <= 0)
+      /*  return if (hp <= 0)
             cost
         else
-            0
+            0*/
         //later big enemies will return partition hit
+    }
+
+    fun getCost() : Int{
+        return cost
     }
 
     override fun update() {
         move(0, verticalVelocity)
     }
 
-    override fun increaseVelocity() {
-        if (verticalVelocity < 12) verticalVelocity++
-    }
+
 
     override fun reset() {
         verticalVelocity = 1

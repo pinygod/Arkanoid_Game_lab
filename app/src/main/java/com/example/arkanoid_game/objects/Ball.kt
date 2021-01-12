@@ -9,8 +9,8 @@ class Ball(bitmap: Bitmap) : GameObject(bitmap) {
         reset()
     }
 
-    var horizontalVelocity = 12
-    var verticalVelocity = -12
+    var horizontalVelocity = 15
+    var verticalVelocity = -15
 
     override fun update() {
         move(horizontalVelocity, verticalVelocity)
@@ -18,17 +18,6 @@ class Ball(bitmap: Bitmap) : GameObject(bitmap) {
         if (this.getLeft() <= 0 || this.getRight() >= screenWidth) horizontalReverse()
     }
 
-    override fun increaseVelocity() {
-        if (horizontalVelocity.absoluteValue < 12) {
-            if (horizontalVelocity < 0) horizontalVelocity--
-            else horizontalVelocity++
-        }
-
-        if (verticalVelocity.absoluteValue < 12) {
-            if (verticalVelocity < 0) verticalVelocity--
-            else verticalVelocity++
-        }
-    }
 
     override fun reset() {
         x = screenWidth / 2

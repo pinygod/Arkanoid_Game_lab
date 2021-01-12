@@ -7,13 +7,14 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 
-class Platform(context: Context, bitmap: Bitmap) : GameObject(bitmap),
+class PlayerPlatform(context: Context, bitmap: Bitmap) : GameObject(bitmap),
     SensorEventListener {
     companion object {
         private const val MARGIN = 15
     }
 
     private var horizontalVelocity = 0
+    private var velocity = 5
 
     init {
         reset()
@@ -48,12 +49,9 @@ class Platform(context: Context, bitmap: Bitmap) : GameObject(bitmap),
         move(horizontalVelocity, 0)
     }
 
-    override fun increaseVelocity() {
-        //level's upgrade later?
-    }
 
     override fun reset() {
         x = screenWidth / 2
-        y = screenHeight - MARGIN
+        y = screenHeight - MARGIN - getBottom() + getTop()
     }
 }

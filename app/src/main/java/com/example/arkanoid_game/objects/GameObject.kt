@@ -27,6 +27,12 @@ abstract class GameObject(private val image: Bitmap) {
     fun getTop(): Int {
         return y
     }
+    fun getCenterX(): Int {
+        return x + width / 2
+    }
+    fun getCenterY(): Int {
+        return y + height / 2
+    }
 
     fun move(horLen: Int, verLen: Int) {
         x += horLen
@@ -38,6 +44,6 @@ abstract class GameObject(private val image: Bitmap) {
     }
 
     abstract fun update()
-    abstract fun increaseVelocity()
+
     abstract fun reset()
 }
