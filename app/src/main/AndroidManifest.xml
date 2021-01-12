@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.arkanoid_game">
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,7 +13,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Arkanoid_Game">
-        <activity android:name=".RankingActivity"></activity>
+        <service
+            android:name=".NotificationsService"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":ArkanoidForegroundService" />
+
+        <activity android:name=".RankingActivity" />
         <activity android:name=".GameActivity" />
         <activity android:name=".MenuActivity">
             <intent-filter>

@@ -17,7 +17,7 @@ class GameActivity : AppCompatActivity() {
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT
         )
-        kek.addView(gameView)
+        surfaceHolder.addView(gameView)
 
     }
 
