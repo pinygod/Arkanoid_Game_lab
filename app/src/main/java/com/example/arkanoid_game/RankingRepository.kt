@@ -2,34 +2,48 @@ package com.example.arkanoid_game
 
 import android.app.Activity
 import android.content.Context
+import androidx.lifecycle.MutableLiveData
+import com.example.arkanoid_game.data.RankingItem
+import com.example.arkanoid_game.data.SessionResult
 import com.google.firebase.firestore.FirebaseFirestore
+import io.nlopez.smartlocation.SmartLocation
 
-class RankingRepository {
+class RankingRepository(private val activity: Activity) {
 
     private val db = FirebaseFirestore.getInstance()
     private var ratingList: ArrayList<RankingItem> = ArrayList()
+    private val result = MutableLiveData<ArrayList<RankingItem>>()
 
-    fun getRatingList(callback: (adapter: RankingRecyclerAdapter) -> Unit) {
-        db.collection("leaderboard")
-            .get()
-            .addOnSuccessListener { querySnapshot ->
-                ratingList =
-                    querySnapshot.toObjects(RankingItem::class.java) as ArrayList<RankingItem>
-                ratingList.sortByDescending { it.score }
-                callback.invoke(RankingRecyclerAdapter(ratingList))
-            }
-            .addOnFailureListener {
-                ratingList = ArrayList()
-                callback.invoke(RankingRecyclerAdapter(ratingList))
-            }
+    init {
+        result.value = ArrayList()
     }
 
-    fun pushScore(activity: Activity, score: Int) {
-        val taskData = HashMap<String, Any>()
-        taskData["name"] = activity.getPreferences(Context.MODE_PRIVATE)
-            .getString(activity.getString(R.string.username_key), null)!!
-        taskData["score"] = score
+    fun getRatingList(): MutableLiveData<ArrayList<RankingItem>> {
+        db.collection(Constants.LEADERBOARD_KEY)
+            .get()
+            .addOnSuccessListener { querySnapshot ->
 
-        db.collection("leaderboard").add(taskData)
+                ratingList =
+                    querySnapshot.toObjects(RankingItem::class.java) as ArrayList<RankingItem>
+                ratingList.sortByDescending { it.result?.score }
+                result.value = ratingList
+            }
+        return result
+    }
+
+    fun pushScore(score: Int) {
+        SmartLocation.with(activity).location().start { location ->
+            val taskData = HashMap<String, Any>()
+            val username =
+                activity.getSharedPreferences(Constants.APP_PREF_KEY, Context.MODE_PRIVATE)
+                    .getString(Constants.USERNAME_KEY, "")!!
+            taskData["name"] = username
+            taskData["result"] = SessionResult(
+                score,
+                location?.latitude,
+                location?.longitude
+            )
+            db.collection(Constants.LEADERBOARD_KEY).add(taskData)
+        }
     }
 }

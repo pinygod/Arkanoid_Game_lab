@@ -1,11 +1,14 @@
-package com.example.arkanoid_game
+package com.example.arkanoid_game.ui.menu
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.arkanoid_game.ui.menu.MenuActivity
+import com.example.arkanoid_game.ui.menu.MenuModel
 
 class MenuViewModel : ViewModel() {
 
-    var model : MenuModel? = MenuModel()
+    var model : MenuModel? =
+        MenuModel()
     var username: MutableLiveData<String> = MutableLiveData()
 
     fun onResume(activity: MenuActivity) {

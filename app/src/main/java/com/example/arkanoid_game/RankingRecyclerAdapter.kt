@@ -1,14 +1,11 @@
 package com.example.arkanoid_game
 
-import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.arkanoid_game.data.RankingItem
 
 class RankingRecyclerAdapter(
     private var items: ArrayList<RankingItem>
@@ -32,7 +29,7 @@ class RankingRecyclerAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = (items[position] as RankingItem)
         (holder as NoteViewHolder).name.text = item.name
-        holder.score.text = item.score.toString()
+        holder.score.text = item.result?.score.toString()
     }
 
 
@@ -40,4 +37,9 @@ class RankingRecyclerAdapter(
         return items.size
     }
 
+    fun updateList(list: ArrayList<RankingItem>){
+        this.items.clear()
+        this.items.addAll(list)
+        this.notifyDataSetChanged()
+    }
 }

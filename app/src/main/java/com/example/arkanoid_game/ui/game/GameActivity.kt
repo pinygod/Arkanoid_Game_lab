@@ -1,9 +1,9 @@
-package com.example.arkanoid_game
+package com.example.arkanoid_game.ui.game
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
+import com.example.arkanoid_game.R
 import com.example.arkanoid_game.gameview.GameView
 import kotlinx.android.synthetic.main.activity_game.*
 
