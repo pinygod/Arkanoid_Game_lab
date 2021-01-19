@@ -13,13 +13,18 @@ import com.example.arkanoid_game.objects.Enemy
 import com.example.arkanoid_game.objects.PlayerPlatform
 import kotlinx.android.synthetic.main.activity_game.view.*
 import kotlinx.coroutines.*
+import kotlin.math.abs
 
-class GameView(context: Context ): SurfaceView(context),
+class GameView(context: Context) : SurfaceView(context),
     SurfaceHolder.Callback {
 
+    companion object{
+        const val DISTANCE_BETWEEN_UPDATES = 15
+    }
 
-    private val platform = PlayerPlatform(context, context.getDrawable(R.drawable.game_platform)!!.toBitmap())
-    private val ball = Ball(context.getDrawable(R.drawable.game_ball)!!.toBitmap())
+    private val platform =
+        PlayerPlatform(context, context.getDrawable(R.drawable.paddle)!!.toBitmap())
+    private val ball = Ball(context.getDrawable(R.drawable.ball)!!.toBitmap())
     private val enemies = ArrayList<Enemy>()
     private val countOfEnemies: Int
     private var gameThread: DrawThread?
@@ -35,10 +40,10 @@ class GameView(context: Context ): SurfaceView(context),
     private var gameRunning = false
     private var isIncreased = false
 
-    private val enemy = context.getDrawable(R.drawable.game_enemy)!!.toBitmap()
+    private val enemy = context.getDrawable(R.drawable.element_green_rectangle)!!.toBitmap()
     private var enemyJob: Job = Job()
 
-    init{
+    init {
 
         holder.addCallback(this)
 
@@ -76,26 +81,24 @@ class GameView(context: Context ): SurfaceView(context),
             enemies.forEach {
                 it.draw(canvas)
             }
-    }
-        else return
+        } else return
 
     }
-
 
 
     fun update() {
-      //  val new_score = score
+        //  val new_score = score
 
         platform.update()
         ball.update()
 
-        if (ball.getBottom() >= screenHeight) {
+        if (ball.getBottom() >= platform.getBottom()) {
             gameThread?.stop()
             endGame()
         }
 
         if (ball.getBottom() >= platform.getTop()) {
-            if (ball.getCenterX() >= platform.getLeft() && ball.getCenterY() <= platform.getRight()) {
+            if (ball.getRight() >= platform.getLeft() && ball.getLeft() <= platform.getRight()) {
                 ball.verticalReverse()
             }
         }
@@ -105,12 +108,10 @@ class GameView(context: Context ): SurfaceView(context),
             if (enemy.getBottom() >= screenHeight) {
                 gameThread?.stop()
                 endGame()
-            }
-
-            else if (ball.getRight() >= enemy.getLeft() && ball.getLeft() <= enemy.getRight() && ball.getBottom() >= enemy.getTop() && ball.getTop()<= enemy.getBottom()) {
+            } else if (ball.getRight() >= enemy.getLeft() && ball.getLeft() <= enemy.getRight() && ball.getBottom() >= enemy.getTop() && ball.getTop() <= enemy.getBottom()) {
                 enemy.hit()
-                if (ball.getBottom() >= enemy.getTop() && ball.getTop() <= enemy.getBottom()) ball.horizontalReverse()
-                if (ball.getRight() >= enemy.getLeft() && ball.getLeft() <= enemy.getRight()) ball.verticalReverse()
+                if (ball.getBottom() >= enemy.getTop() && ball.getTop() <= enemy.getBottom() && !(ball.getRight() >= enemy.getLeft() + DISTANCE_BETWEEN_UPDATES && ball.getLeft() <= enemy.getRight() - DISTANCE_BETWEEN_UPDATES)) ball.horizontalReverse()
+                else ball.verticalReverse()
                 if (enemy.hp == 0) {
                     increaseScore(enemy.getCost())
                     enemies.remove(enemy)
@@ -127,10 +128,13 @@ class GameView(context: Context ): SurfaceView(context),
 
                 delay(5000L)
                 for (i in 0 until countOfEnemies) {
-                    val enemy: Enemy = if (i == 0)
-                        Enemy(enemy, 1, 1) // mb random hp and cost
-                    else
-                        Enemy(enemy, 1, 1, enemies.last().getRight() + 20)
+                    val enemy: Enemy = if (i == 0) {
+                        val count = screenWidth / (enemy.width + Enemy.MARGIN)
+                        val margins = Enemy.MARGIN * (count - 1)
+                        val startX = (screenWidth - (count * enemy.width) - margins) / 2
+                        Enemy(enemy, 1, 1, startX) // mb random hp and cost
+                    } else
+                        Enemy(enemy, 1, 1, enemies.last().getRight() + Enemy.MARGIN)
 
                     enemies.add(enemy)
                 }
@@ -141,11 +145,8 @@ class GameView(context: Context ): SurfaceView(context),
     }
 
 
-
-
-
     private fun increaseScore(points: Int) {
-        score+= points
+        score += points
     }
 
     fun pauseGame() {
@@ -169,7 +170,7 @@ class GameView(context: Context ): SurfaceView(context),
         pause = false
         ended = false
         //gameThread.run { start() }
-       // gameThread2.run { createEnemies() }
+        // gameThread2.run { createEnemies() }
 
         //создать блоки
     }
