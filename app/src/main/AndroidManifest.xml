@@ -44,7 +44,8 @@
             android:process=":ArkanoidForegroundService" />
 
         <activity android:name=".ui.ranking.RankingActivity" />
-        <activity android:name=".ui.game.GameActivity" />
+        <activity android:name=".ui.game.GameActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".ui.menu.MenuActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -4,7 +4,6 @@
     <string name="game_name">Arkanoid</string>
     <string name="play">PLAY</string>
     <string name="game_score">Score: %1$d</string>
-    <string name="exit">EXIT</string>
     <string name="restart">RESTART</string>
     <string name="lost">YOU LOST!</string>
     <string name="type_name_hint">Hey, type your name!</string>
@@ -12,4 +11,8 @@
     <string name="channel_name">Arkanoid Notifications Channel</string>
     <string name="title_activity_maps">Map</string>
     <string name="map">MAP</string>
+    <string name="choose_level">CHOOSE LEVEL:</string>
+    <string name="exit">EXIT</string>
+    <string name="resume">RESUME</string>
+    <string name="pause">PAUSE</string>
 </resources>

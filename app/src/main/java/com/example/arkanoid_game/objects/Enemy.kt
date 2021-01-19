@@ -2,7 +2,7 @@ package com.example.arkanoid_game.objects
 
 import android.graphics.Bitmap
 
-class Enemy(bitmap: Bitmap, private val cost: Int, var hp: Int, x: Int = 10, y: Int = -20) :
+class Enemy(bitmap: Bitmap, private val cost: Int, var hp: Int, x: Int = 10, y: Int = 100) :
     GameObject(bitmap) {
     companion object {
         const val MARGIN = 20

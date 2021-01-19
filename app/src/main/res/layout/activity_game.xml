@@ -4,33 +4,110 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="androidx.lifecycle.LiveData"/>
-        <import type="android.text.TextUtils"/>
+
+        <import type="androidx.lifecycle.LiveData" />
+
+        <import type="android.text.TextUtils" />
+
+        <import type="android.view.View" />
+
         <variable
-            name="score"
+            name="gameScore"
             type="LiveData&lt;Integer>" />
+
+        <variable
+            name="gameRunning"
+            type="LiveData&lt;Boolean>" />
+
+        <variable
+            name="gamePaused"
+            type="LiveData&lt;Boolean>" />
+
+        <variable
+            name="gameEnded"
+            type="LiveData&lt;Boolean>" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/elementsHolder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/game_bg"
         tools:context=".ui.game.GameActivity">
 
-        <FrameLayout
-            android:id="@+id/surfaceHolder"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/levelLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/corners_shape"
+            android:backgroundTint="#80353535"
+            android:padding="30dp"
+            android:visibility="@{!gameRunning ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        </FrameLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="32dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="@+id/levelText"
+                app:layout_constraintStart_toStartOf="@+id/levelText"
+                app:layout_constraintTop_toBottomOf="@+id/levelText">
+
+                <Button
+                    android:id="@+id/lvl3"
+                    style="@style/button_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:layout_weight="1"
+                    android:text="3" />
+
+                <Button
+                    android:id="@+id/lvl2"
+                    style="@style/button_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:layout_weight="1"
+                    android:text="2" />
+
+                <Button
+                    android:id="@+id/lvl1"
+                    style="@style/button_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:layout_weight="1"
+                    android:text="1" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/levelText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/bungee_shade"
+                android:text="@string/choose_level"
+                android:textAlignment="viewStart"
+                android:textColor="@color/game_blue"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/pauseLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/corners_shape"
-            android:backgroundTint="#32000000"
+            android:backgroundTint="#80353535"
             android:padding="30dp"
-            android:visibility="gone"
+            android:visibility="@{gamePaused &amp;&amp; gameRunning &amp;&amp; !gameEnded ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +118,7 @@
                 style="@style/button_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="EXIT"
+                android:text="@string/exit"
                 app:layout_constraintEnd_toEndOf="@+id/resumeButton"
                 app:layout_constraintStart_toStartOf="@+id/resumeButton"
                 app:layout_constraintTop_toBottomOf="@+id/resumeButton" />
@@ -52,7 +129,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="RESUME"
+                android:text="@string/resume"
                 app:layout_constraintEnd_toEndOf="@+id/textView2"
                 app:layout_constraintStart_toStartOf="@+id/textView2"
                 app:layout_constraintTop_toBottomOf="@+id/textView2" />
@@ -62,7 +139,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/bungee_shade"
-                android:text="PAUSE"
+                android:text="@string/pause"
                 android:textAlignment="viewStart"
                 android:textColor="@color/game_blue"
                 android:textSize="36sp"
@@ -77,9 +154,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/corners_shape"
-            android:backgroundTint="#32000000"
+            android:backgroundTint="#80353535"
             android:padding="30dp"
-            android:visibility="gone"
+            android:visibility="@{gameEnded ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -101,6 +178,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
+                android:backgroundTint="@color/game_blue"
                 android:text="@string/restart"
                 app:layout_constraintEnd_toEndOf="@+id/textView3"
                 app:layout_constraintStart_toStartOf="@+id/textView3"
@@ -128,7 +206,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/aldrich"
-            android:text="@{@string/game_score(score)}"
+            android:text="@{@string/game_score(gameScore)}"
             android:textColor="@color/game_blue"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -144,5 +222,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@android:drawable/ic_media_pause" />
+
+        <FrameLayout
+            android:id="@+id/surfaceHolder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#00000000"
+            android:backgroundTint="#00000000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </FrameLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

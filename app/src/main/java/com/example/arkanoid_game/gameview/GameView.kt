@@ -1,5 +1,6 @@
 package com.example.arkanoid_game.gameview
 
+import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
@@ -7,7 +8,10 @@ import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.View
 import androidx.core.graphics.drawable.toBitmap
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.arkanoid_game.R
+import com.example.arkanoid_game.RankingRepository
 import com.example.arkanoid_game.objects.Ball
 import com.example.arkanoid_game.objects.Enemy
 import com.example.arkanoid_game.objects.PlayerPlatform
@@ -15,7 +19,7 @@ import kotlinx.android.synthetic.main.activity_game.view.*
 import kotlinx.coroutines.*
 import kotlin.math.abs
 
-class GameView(context: Context) : SurfaceView(context),
+class GameView(private val activity: Activity) : SurfaceView(activity),
     SurfaceHolder.Callback {
 
     companion object{
@@ -27,17 +31,17 @@ class GameView(context: Context) : SurfaceView(context),
     private val ball = Ball(context.getDrawable(R.drawable.ball)!!.toBitmap())
     private val enemies = ArrayList<Enemy>()
     private val countOfEnemies: Int
-    private var gameThread: DrawThread?
+    private var gameThread: DrawThread? = null
     var gameThread2: Thread? = null
 
 
     private val screenWidth = Resources.getSystem().displayMetrics.widthPixels
     private val screenHeight = Resources.getSystem().displayMetrics.heightPixels
 
-    var score = 0
-    var pause = false
-    var ended = false
-    private var gameRunning = false
+    var score = MutableLiveData(0)
+    var pause = MutableLiveData(false)
+    var ended = MutableLiveData(false)
+    var gameRunning = MutableLiveData(false)
     private var isIncreased = false
 
     private val enemy = context.getDrawable(R.drawable.element_green_rectangle)!!.toBitmap()
@@ -46,11 +50,8 @@ class GameView(context: Context) : SurfaceView(context),
     init {
 
         holder.addCallback(this)
-
-        gameThread = DrawThread(holder, this)
-        setZOrderOnTop(false)
         holder.setFormat(PixelFormat.TRANSPARENT)
-
+        setZOrderOnTop(true)
         val enemyWidth: Int = enemy.width
         val enemyHeight: Int = enemy.height
         countOfEnemies = screenWidth / (enemyWidth + Enemy.MARGIN)
@@ -146,29 +147,30 @@ class GameView(context: Context) : SurfaceView(context),
 
 
     private fun increaseScore(points: Int) {
-        score += points
+        score.value = score.value?.plus(points)
     }
 
     fun pauseGame() {
-        pause = true
+        pause.value = true
     }
 
     fun resumeGame() {
-        pause = false
+        pause.value = false
     }
 
     private fun endGame() {
-        ended = true
+        pause.value = false
+        ended.value = true
     }
 
     fun startGame() {
-
+        gameRunning.value = true
         gameThread = DrawThread(holder, this)
         gameThread?.start()
         enemyJob = createEnemies()
-        score = 0
-        pause = false
-        ended = false
+        score.value = 0
+        pause.value = false
+        ended.value = false
         //gameThread.run { start() }
         // gameThread2.run { createEnemies() }
 
