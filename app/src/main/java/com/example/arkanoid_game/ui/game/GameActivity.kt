@@ -27,10 +27,12 @@ class GameActivity : AppCompatActivity() {
             gameScore = gameView.score
             pauseButton.setOnClickListener {
                 AppHelper.playClickSound(this@GameActivity)
+                gameView.stopGame()
                 gameView.pauseGame()
             }
             resumeButton.setOnClickListener {
                 AppHelper.playClickSound(this@GameActivity)
+                gameView.startGame()
                 gameView.resumeGame()
             }
             exitButton.setOnClickListener {
@@ -73,8 +75,8 @@ class GameActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        //gameView.startGame()
-        //gameView.resumeGame()
+        gameView.startGame()
+        gameView.resumeGame()
     }
 
     override fun onPause() {
