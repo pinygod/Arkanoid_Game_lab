@@ -2,7 +2,11 @@ package com.example.arkanoid_game.ui.menu
 
 import android.Manifest
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
@@ -16,25 +20,51 @@ import com.example.arkanoid_game.ui.ranking.RankingActivity
 class MenuActivity : AppCompatActivity() {
 
     private val viewModel by viewModels<MenuViewModel>()
-    private lateinit var binding : ActivityMenuBinding
+    private lateinit var binding: ActivityMenuBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = DataBindingUtil.setContentView(this,
+        binding = DataBindingUtil.setContentView(
+            this,
             R.layout.activity_menu
         )
-        binding.username = viewModel.username
-        binding.userNickname.addTextChangedListener(afterTextChanged = {viewModel.changeUsername(this, binding.userNickname.text.toString())})
+        binding.apply {
+            title.startAnimation(AnimationUtils.loadAnimation(this@MenuActivity, R.anim.title_anim))
+            username = viewModel.username
+            userNickname.addTextChangedListener(afterTextChanged = {
+                viewModel.changeUsername(
+                    this@MenuActivity,
+                    binding.userNickname.text.toString()
+                )
+            })
 
-        binding.rankingButton.setOnClickListener {
-            startActivity(Intent(this, RankingActivity::class.java))
-        }
-        binding.playButton.setOnClickListener {
-            startActivity(Intent(this, GameActivity::class.java))
-        }
-        binding.mapButton.setOnClickListener {
-            startActivity(Intent(this, MapsActivity::class.java))
+            playButton.setOnClickListener {
+                AppHelper.playClickSound(this@MenuActivity)
+                if (viewModel.username.value != null && Permissions(this@MenuActivity).check(
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    )
+                )
+                    startActivity(Intent(this@MenuActivity, GameActivity::class.java))
+                else {
+                    Toast.makeText(
+                        this@MenuActivity,
+                        "We need this permission to save your result.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    requestNecessaryPermissions()
+                }
+            }
+
+            rankingButton.setOnClickListener {
+                AppHelper.playClickSound(this@MenuActivity)
+                startActivity(Intent(this@MenuActivity, RankingActivity::class.java))
+            }
+
+            mapButton.setOnClickListener {
+                AppHelper.playClickSound(this@MenuActivity)
+                startActivity(Intent(this@MenuActivity, MapsActivity::class.java))
+            }
         }
 
         requestNecessaryPermissions()
@@ -43,7 +73,12 @@ class MenuActivity : AppCompatActivity() {
 
     private fun requestNecessaryPermissions() {
         Permissions(this)
-            .request(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), 1)
+            .request(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ), 1
+            )
     }
 
     override fun onResume() {
@@ -56,7 +91,7 @@ class MenuActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    fun startNotificationsService(){
+    private fun startNotificationsService() {
         val startIntent = Intent(applicationContext, NotificationsService::class.java)
         startIntent.action = "START"
         startService(startIntent)

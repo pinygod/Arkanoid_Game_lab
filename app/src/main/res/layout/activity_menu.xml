@@ -35,7 +35,7 @@
                 android:fontFamily="@font/bungee_shade"
                 android:padding="20dp"
                 android:text="@string/game_name"
-                android:textColor="#B3BFFA"
+                android:textColor="@color/game_blue"
                 android:textSize="36sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"

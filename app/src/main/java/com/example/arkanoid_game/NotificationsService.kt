@@ -19,7 +19,7 @@ class NotificationsService : Service() {
     private val notificationCycle = Runnable {
         kotlin.run {
             while (isServiceStarted) {
-                Thread.sleep(1 * 60 * 1000L)
+                Thread.sleep(10 * 60 * 1000L)
                 sendNotification()
             }
         }

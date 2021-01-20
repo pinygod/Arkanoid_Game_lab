@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import com.example.arkanoid_game.AppHelper
 import com.example.arkanoid_game.R
 import com.example.arkanoid_game.databinding.ActivityGameBinding
 import com.example.arkanoid_game.gameview.GameView
@@ -25,29 +26,38 @@ class GameActivity : AppCompatActivity() {
             gameRunning = gameView.gameRunning
             gameScore = gameView.score
             pauseButton.setOnClickListener {
+                AppHelper.playClickSound(this@GameActivity)
                 gameView.pauseGame()
             }
             resumeButton.setOnClickListener {
+                AppHelper.playClickSound(this@GameActivity)
                 gameView.resumeGame()
             }
             exitButton.setOnClickListener {
+                AppHelper.playClickSound(this@GameActivity)
                 finish()
             }
             exitButtonLost.setOnClickListener {
+                AppHelper.playClickSound(this@GameActivity)
                 finish()
             }
             restartButton.setOnClickListener {
+                AppHelper.playClickSound(this@GameActivity)
                 startActivity(Intent(this@GameActivity, GameActivity::class.java))
+                finish()
             }
             lvl1.setOnClickListener {
+                AppHelper.playClickSound(this@GameActivity)
                 gameView.startGame()
                 //add lvl definition
             }
             lvl2.setOnClickListener {
+                AppHelper.playClickSound(this@GameActivity)
                 gameView.startGame()
                 //add lvl definition
             }
             lvl3.setOnClickListener {
+                AppHelper.playClickSound(this@GameActivity)
                 gameView.startGame()
                 //add lvl definition
             }
