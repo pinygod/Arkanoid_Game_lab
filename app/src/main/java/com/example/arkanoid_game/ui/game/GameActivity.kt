@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.databinding.DataBindingUtil
 import com.example.arkanoid_game.AppHelper
 import com.example.arkanoid_game.R
@@ -13,7 +14,8 @@ import com.example.arkanoid_game.ui.maps.MapsViewModel
 import kotlinx.android.synthetic.main.activity_game.*
 
 class GameActivity : AppCompatActivity() {
-    private val gameView : GameView by lazy { GameView(this) }
+    private val viewModel : GameViewModel by lazy { GameViewModel(this) }
+    private val gameView : GameView by lazy { GameView(this, viewModel) }
     private lateinit var binding: ActivityGameBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,18 +23,16 @@ class GameActivity : AppCompatActivity() {
 
         binding.apply {
             lifecycleOwner = this@GameActivity
-            gameEnded = gameView.ended
-            gamePaused = gameView.pause
-            gameRunning = gameView.gameRunning
-            gameScore = gameView.score
+            gameEnded = viewModel.isEnded
+            gamePaused = viewModel.isPaused
+            gameRunning = viewModel.isGameRunning
+            gameScore = viewModel.score
             pauseButton.setOnClickListener {
                 AppHelper.playClickSound(this@GameActivity)
-                gameView.stopGame()
                 gameView.pauseGame()
             }
             resumeButton.setOnClickListener {
                 AppHelper.playClickSound(this@GameActivity)
-                gameView.startGame()
                 gameView.resumeGame()
             }
             exitButton.setOnClickListener {
@@ -73,15 +73,13 @@ class GameActivity : AppCompatActivity() {
         binding.surfaceHolder.addView(gameView)
     }
 
-    override fun onResume() {
-        super.onResume()
-        gameView.startGame()
-        gameView.resumeGame()
+    override fun onPause() {
+        gameView.pauseGame()
+        super.onPause()
     }
 
-    override fun onPause() {
-        super.onPause()
-        gameView.stopGame()
-        gameView.pauseGame()
+    override fun onDestroy() {
+        gameView.endGame()
+        super.onDestroy()
     }
 }

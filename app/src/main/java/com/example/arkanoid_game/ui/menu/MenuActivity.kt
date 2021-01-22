@@ -41,18 +41,26 @@ class MenuActivity : AppCompatActivity() {
 
             playButton.setOnClickListener {
                 AppHelper.playClickSound(this@MenuActivity)
-                if (viewModel.username.value != null && Permissions(this@MenuActivity).check(
-                        Manifest.permission.ACCESS_FINE_LOCATION
+                if (viewModel.username.value != null)
+                    if (Permissions(this@MenuActivity).check(
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                        )
                     )
-                )
-                    startActivity(Intent(this@MenuActivity, GameActivity::class.java))
+                        startActivity(Intent(this@MenuActivity, GameActivity::class.java))
+                    else {
+                        Toast.makeText(
+                            this@MenuActivity,
+                            "We need this permission to save your result.",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        requestNecessaryPermissions()
+                    }
                 else {
                     Toast.makeText(
                         this@MenuActivity,
-                        "We need this permission to save your result.",
+                        "Type your name!",
                         Toast.LENGTH_LONG
                     ).show()
-                    requestNecessaryPermissions()
                 }
             }
 

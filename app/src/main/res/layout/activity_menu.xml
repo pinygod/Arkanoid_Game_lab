@@ -48,10 +48,11 @@
 
         <ImageButton
             android:id="@+id/playButton"
-            style="@style/button_style"
+            style="@style/Widget.AppCompat.ImageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="60dp"
+            android:backgroundTint="#00FFFFFF"
             android:text="@string/play"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -79,12 +80,13 @@
             android:elevation="10dp"
             android:fontFamily="@font/bubblegum_sans"
             android:text="@string/ranking"
+            android:textAlignment="center"
             android:textColor="#FFFFFF"
             android:textSize="36sp"
             app:layout_constraintBottom_toBottomOf="@+id/rankingButton"
             app:layout_constraintEnd_toEndOf="@+id/rankingButton"
             app:layout_constraintStart_toStartOf="@+id/rankingButton"
-            app:layout_constraintTop_toBottomOf="@+id/playButton" />
+            app:layout_constraintTop_toTopOf="@+id/rankingButton" />
 
         <TextView
             android:id="@+id/textView5"
@@ -98,49 +100,75 @@
             app:layout_constraintBottom_toBottomOf="@+id/mapButton"
             app:layout_constraintEnd_toEndOf="@+id/mapButton"
             app:layout_constraintStart_toStartOf="@+id/mapButton"
-            app:layout_constraintTop_toBottomOf="@+id/rankingButton" />
+            app:layout_constraintTop_toTopOf="@+id/mapButton" />
 
         <ImageButton
             android:id="@+id/rankingButton"
-            style="@style/button_style"
+            style="@style/Widget.AppCompat.ImageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="#00FFFFFF"
             android:text="@string/ranking"
+            app:layout_constraintBottom_toTopOf="@+id/mapButton"
             app:layout_constraintEnd_toEndOf="@+id/playButton"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/playButton"
             app:layout_constraintTop_toBottomOf="@+id/playButton"
             app:srcCompat="@drawable/blue_btn2" />
 
         <ImageButton
             android:id="@+id/mapButton"
-            style="@style/button_style"
+            style="@style/Widget.AppCompat.ImageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="60dp"
+            android:backgroundTint="#00FFFFFF"
             android:text="@string/map"
+            app:layout_constraintBottom_toTopOf="@+id/profileCard"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rankingButton"
             app:srcCompat="@drawable/blue_btn2" />
 
-        <EditText
-            android:id="@+id/userNickname"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/profileCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:fontFamily="@font/aldrich"
-            android:hint="@string/type_name_hint"
-            android:inputType="textPersonName"
-            android:textAlignment="center"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#FFFFFF"
-            android:textSize="18sp"
+            android:background="#00FFFFFF"
+            android:backgroundTint="#00FFFFFF"
+            app:cardElevation="0dp"
+            app:cardMaxElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:text="@{username}"/>
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/profileImage"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/m2" />
+
+                <EditText
+                    android:id="@+id/userNickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/aldrich"
+                    android:hint="@string/type_name_hint"
+                    android:inputType="textPersonName"
+                    android:text="@{username}"
+                    android:textAlignment="center"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#FFFFFF"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/profileImage" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
