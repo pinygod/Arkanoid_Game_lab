@@ -36,8 +36,8 @@ class PlayerPlatform(context: Context, bitmap: Bitmap) : GameObject(bitmap),
                 horizontalVelocity.coerceAtMost(screenWidth - this.getLeft())
 
 
-            if (horizontalVelocity > 12) horizontalVelocity = 12
-            if (horizontalVelocity < -12) horizontalVelocity = -12
+            if (horizontalVelocity > 18) horizontalVelocity = 18
+            if (horizontalVelocity < -18) horizontalVelocity = -18
         }
     }
 

@@ -28,14 +28,6 @@ abstract class GameObject(private val image: Bitmap) {
         return y
     }
 
-    fun getCenterX(): Int {
-        return x + width / 2
-    }
-
-    fun getCenterY(): Int {
-        return y + height / 2
-    }
-
     fun move(horLen: Int, verLen: Int) {
         x = (screenWidth - width).coerceAtMost(0.coerceAtLeast(x + horLen))
         y = (screenHeight - height).coerceAtMost(0.coerceAtLeast(y + verLen))

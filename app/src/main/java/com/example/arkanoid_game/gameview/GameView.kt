@@ -12,7 +12,6 @@ import com.example.arkanoid_game.objects.Ball
 import com.example.arkanoid_game.objects.Enemy
 import com.example.arkanoid_game.objects.PlayerPlatform
 import com.example.arkanoid_game.ui.game.GameViewModel
-import kotlinx.android.synthetic.main.activity_game.view.*
 import kotlinx.coroutines.*
 
 class GameView(private val activity: Activity, private val viewModel: GameViewModel) :
@@ -25,16 +24,20 @@ class GameView(private val activity: Activity, private val viewModel: GameViewMo
 
     private val screenWidth = Resources.getSystem().displayMetrics.widthPixels
     private val screenHeight = Resources.getSystem().displayMetrics.heightPixels
-
+    private var lvl = 1;
     private var gameThread: DrawThread? = null
 
     private var elapsedTime: Long = 0
+    private var delayTime: Long = 10000L
     private var now: Long = 0
+    private var countForSpawn = 20;
 
     private val platform =
-        PlayerPlatform(context, ContextCompat.getDrawable(activity, R.drawable.paddle)!!.toBitmap())
+        PlayerPlatform(context, ContextCompat.getDrawable(activity, R.drawable.movingplatform)!!.toBitmap())
     private var ball = Ball(ContextCompat.getDrawable(activity, R.drawable.m2)!!.toBitmap())
-    private val enemy = ContextCompat.getDrawable(activity, R.drawable.enemy2)!!.toBitmap()
+    private var enemy = ContextCompat.getDrawable(activity, R.drawable.enemy2)!!.toBitmap()
+    private var enemy2 = ContextCompat.getDrawable(activity, R.drawable.enemy3_2)!!.toBitmap()
+
 
     private val enemies = ArrayList<Enemy>()
     private val countOfEnemies: Int
@@ -80,6 +83,7 @@ class GameView(private val activity: Activity, private val viewModel: GameViewMo
         platform.update()
         ball.update()
 
+
         if (ball.getBottom() >= platform.getBottom()) {
             endGame()
         }
@@ -119,19 +123,52 @@ class GameView(private val activity: Activity, private val viewModel: GameViewMo
                             val count = screenWidth / (enemy.width + Enemy.MARGIN)
                             val margins = Enemy.MARGIN * (count - 1)
                             val startX = (screenWidth - (count * enemy.width) - margins) / 2
-                            Enemy(enemy, 1, 1, startX) // mb random hp and cost
+                            if (countForSpawn!=0) {
+                                Enemy(enemy, lvl, 1, startX) // mb random hp and cost
+                            }
+                            else {
+                                countForSpawn = lvl*3 + 5
+                                Enemy(enemy2, 2*lvl, 2, startX)
+                            }
+
                         } else
-                            Enemy(enemy, 1, 1, enemies.last().getRight() + Enemy.MARGIN)
+                            if (countForSpawn!=0) {
+                                Enemy(enemy, lvl, 1, enemies.last().getRight() + Enemy.MARGIN)
+                            }
+                            else {
+                                countForSpawn = lvl*3 + 5
+                                Enemy(enemy2, 2*lvl, 2, enemies.last().getRight() + Enemy.MARGIN)
+                            }
 
                         enemies.add(enemy)
+                        enemies.first().setVelocity(lvl)
+                        countForSpawn--
                     }
                     now = System.currentTimeMillis()
-                    delay(10000L)
+                    delay(delayTime)
                 }
             }
 
             return@launch
         }
+    }
+
+    fun setFirstLvl(){
+        lvl = 1;
+        delayTime = 12000L;
+        countForSpawn = 20
+    }
+
+    fun setSecondLvl(){
+        lvl = 2;
+        delayTime = 8000L;
+        countForSpawn = 15;
+    }
+
+    fun setThirdLvl(){
+        lvl = 3;
+        delayTime = 5000L;
+        countForSpawn = 10;
     }
 
     fun pauseGame() {

@@ -12,7 +12,6 @@ class Enemy(bitmap: Bitmap, private val cost: Int, var hp: Int, x: Int = 10, y: 
     init {
         this.x = x
         this.y = y
-        reset()
     }
 
     fun hit() {
@@ -32,7 +31,9 @@ class Enemy(bitmap: Bitmap, private val cost: Int, var hp: Int, x: Int = 10, y: 
         move(0, verticalVelocity)
     }
 
-
+    fun setVelocity(speed : Int) {
+         verticalVelocity = speed
+    }
 
     override fun reset() {
         verticalVelocity = 1

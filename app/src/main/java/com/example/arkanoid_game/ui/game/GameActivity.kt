@@ -4,14 +4,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import androidx.databinding.DataBindingUtil
 import com.example.arkanoid_game.AppHelper
 import com.example.arkanoid_game.R
 import com.example.arkanoid_game.databinding.ActivityGameBinding
 import com.example.arkanoid_game.gameview.GameView
-import com.example.arkanoid_game.ui.maps.MapsViewModel
-import kotlinx.android.synthetic.main.activity_game.*
 
 class GameActivity : AppCompatActivity() {
     private val viewModel : GameViewModel by lazy { GameViewModel(this) }
@@ -51,17 +48,17 @@ class GameActivity : AppCompatActivity() {
             lvl1.setOnClickListener {
                 AppHelper.playClickSound(this@GameActivity)
                 gameView.startGame()
-                //add lvl definition
+                gameView.setFirstLvl()
             }
             lvl2.setOnClickListener {
                 AppHelper.playClickSound(this@GameActivity)
                 gameView.startGame()
-                //add lvl definition
+                gameView.setSecondLvl()
             }
             lvl3.setOnClickListener {
                 AppHelper.playClickSound(this@GameActivity)
                 gameView.startGame()
-                //add lvl definition
+                gameView.setThirdLvl()
             }
 
         }
