@@ -14,7 +14,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/menu_bg"
+        android:background="@drawable/menu_bg2"
         tools:context=".ui.menu.MenuActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,40 +36,92 @@
                 android:padding="20dp"
                 android:text="@string/game_name"
                 android:textColor="@color/game_blue"
-                android:textSize="36sp"
+                android:textSize="42sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <Button
+        <ImageButton
             android:id="@+id/playButton"
             style="@style/button_style"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="80dp"
             android:text="@string/play"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titleLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/titleLayout"
+            app:srcCompat="@drawable/blue_btn2" />
 
-        <Button
-            android:id="@+id/rankingButton"
-            style="@style/button_style"
-            android:text="@string/ranking"
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="10dp"
+            android:fontFamily="@font/bubblegum_sans"
+            android:text="@string/play"
+            android:textColor="#FFFFFF"
+            android:textSize="36sp"
+            app:layout_constraintBottom_toBottomOf="@+id/playButton"
             app:layout_constraintEnd_toEndOf="@+id/playButton"
             app:layout_constraintStart_toStartOf="@+id/playButton"
+            app:layout_constraintTop_toTopOf="@+id/playButton" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="10dp"
+            android:fontFamily="@font/bubblegum_sans"
+            android:text="@string/ranking"
+            android:textColor="#FFFFFF"
+            android:textSize="36sp"
+            app:layout_constraintBottom_toBottomOf="@+id/rankingButton"
+            app:layout_constraintEnd_toEndOf="@+id/rankingButton"
+            app:layout_constraintStart_toStartOf="@+id/rankingButton"
             app:layout_constraintTop_toBottomOf="@+id/playButton" />
 
-        <Button
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="10dp"
+            android:fontFamily="@font/bubblegum_sans"
+            android:text="@string/map"
+            android:textColor="#FFFFFF"
+            android:textSize="36sp"
+            app:layout_constraintBottom_toBottomOf="@+id/mapButton"
+            app:layout_constraintEnd_toEndOf="@+id/mapButton"
+            app:layout_constraintStart_toStartOf="@+id/mapButton"
+            app:layout_constraintTop_toBottomOf="@+id/rankingButton" />
+
+        <ImageButton
+            android:id="@+id/rankingButton"
+            style="@style/button_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ranking"
+            app:layout_constraintEnd_toEndOf="@+id/playButton"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/playButton"
+            app:layout_constraintTop_toBottomOf="@+id/playButton"
+            app:srcCompat="@drawable/blue_btn2" />
+
+        <ImageButton
             android:id="@+id/mapButton"
             style="@style/button_style"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/map"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rankingButton" />
+            app:layout_constraintTop_toBottomOf="@+id/rankingButton"
+            app:srcCompat="@drawable/blue_btn2" />
 
         <EditText
             android:id="@+id/userNickname"

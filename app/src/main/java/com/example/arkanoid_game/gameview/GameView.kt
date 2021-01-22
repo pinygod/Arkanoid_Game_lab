@@ -26,9 +26,12 @@ class GameView(private val activity: Activity) : SurfaceView(activity),
         const val DISTANCE_BETWEEN_UPDATES = 15
     }
 
+    private var elapsedTime: Long = 0
+    private var now: Long = 0
     private val platform =
         PlayerPlatform(context, context.getDrawable(R.drawable.paddle)!!.toBitmap())
-    private val ball = Ball(context.getDrawable(R.drawable.ball)!!.toBitmap())
+    private var ball = Ball(context.getDrawable(R.drawable.m2)!!.toBitmap())
+    private val tempBall = Ball(context.getDrawable(R.drawable.nothing)!!.toBitmap())
     private val enemies = ArrayList<Enemy>()
     private val countOfEnemies: Int
     private var gameThread: DrawThread? = null
@@ -44,14 +47,14 @@ class GameView(private val activity: Activity) : SurfaceView(activity),
     var gameRunning = MutableLiveData(false)
     private var isIncreased = false
 
-    private val enemy = context.getDrawable(R.drawable.element_green_rectangle)!!.toBitmap()
+    private val enemy = context.getDrawable(R.drawable.enemy2)!!.toBitmap()
     private var enemyJob: Job = Job()
 
     init {
 
         holder.addCallback(this)
-        holder.setFormat(PixelFormat.TRANSPARENT)
         setZOrderOnTop(true)
+        holder.setFormat(PixelFormat.TRANSLUCENT)
         val enemyWidth: Int = enemy.width
         val enemyHeight: Int = enemy.height
         countOfEnemies = screenWidth / (enemyWidth + Enemy.MARGIN)
@@ -122,12 +125,11 @@ class GameView(private val activity: Activity) : SurfaceView(activity),
         }
     }
 
-    fun createEnemies(): Job {
+    private fun createEnemies(): Job {
         return CoroutineScope(Dispatchers.Main).launch {
             while (true) {
                 if (!this.isActive) break
 
-                delay(5000L)
                 for (i in 0 until countOfEnemies) {
                     val enemy: Enemy = if (i == 0) {
                         val count = screenWidth / (enemy.width + Enemy.MARGIN)
@@ -139,6 +141,10 @@ class GameView(private val activity: Activity) : SurfaceView(activity),
 
                     enemies.add(enemy)
                 }
+                now = System.currentTimeMillis()
+                delay(10000L)
+
+
             }
 
             return@launch
@@ -151,7 +157,9 @@ class GameView(private val activity: Activity) : SurfaceView(activity),
     }
 
     fun pauseGame() {
+        elapsedTime = (System.currentTimeMillis() - now)
         pause.value = true
+        gameThread?.stop()
     }
 
     fun resumeGame() {
@@ -167,10 +175,22 @@ class GameView(private val activity: Activity) : SurfaceView(activity),
         gameRunning.value = true
         gameThread = DrawThread(holder, this)
         gameThread?.start()
-        enemyJob = createEnemies()
-        score.value = 0
-        pause.value = false
-        ended.value = false
+
+        if (pause.value != true) {
+            score.value = 0
+            enemyJob = createEnemies()
+        }
+        else {
+            CoroutineScope(Dispatchers.Main).launch {
+                delay(10000L-elapsedTime)
+                enemyJob = createEnemies()
+                pause.value = false
+                ended.value = false
+                return@launch
+
+            }
+        }
+
         //gameThread.run { start() }
         // gameThread2.run { createEnemies() }
 
