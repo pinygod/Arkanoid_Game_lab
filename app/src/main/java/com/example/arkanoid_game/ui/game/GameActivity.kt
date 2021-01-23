@@ -82,7 +82,7 @@ class GameActivity : AppCompatActivity() {
 
     override fun onPause() {
         gameView.pauseGame()
-        mediaPlayer.stop()
+        mediaPlayer.pause()
         super.onPause()
     }
 
