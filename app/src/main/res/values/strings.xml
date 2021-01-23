@@ -15,4 +15,5 @@
     <string name="exit">EXIT</string>
     <string name="resume">RESUME</string>
     <string name="pause">PAUSE</string>
+    <string name="location_permission_hint">We need this permission to save your result.</string>
 </resources>

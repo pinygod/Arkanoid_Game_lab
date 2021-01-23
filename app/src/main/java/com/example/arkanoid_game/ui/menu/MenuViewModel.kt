@@ -2,12 +2,10 @@ package com.example.arkanoid_game.ui.menu
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.arkanoid_game.ui.menu.MenuActivity
-import com.example.arkanoid_game.ui.menu.MenuModel
 
 class MenuViewModel : ViewModel() {
 
-    var model : MenuModel? =
+    private var model: MenuModel? =
         MenuModel()
     var username: MutableLiveData<String> = MutableLiveData()
 
@@ -19,7 +17,7 @@ class MenuViewModel : ViewModel() {
         model?.saveUsername(activity, username)
     }
 
-    fun onDestroy(){
+    fun onDestroy() {
         model = null
     }
 }

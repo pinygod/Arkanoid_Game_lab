@@ -2,9 +2,7 @@ package com.example.arkanoid_game.ui.menu
 
 import android.Manifest
 import android.content.Intent
-import android.media.MediaPlayer
 import android.os.Bundle
-import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -50,7 +48,7 @@ class MenuActivity : AppCompatActivity() {
                     else {
                         Toast.makeText(
                             this@MenuActivity,
-                            "We need this permission to save your result.",
+                            getString(R.string.location_permission_hint),
                             Toast.LENGTH_LONG
                         ).show()
                         requestNecessaryPermissions()
@@ -58,7 +56,7 @@ class MenuActivity : AppCompatActivity() {
                 else {
                     Toast.makeText(
                         this@MenuActivity,
-                        "Type your name!",
+                        getString(R.string.type_name_hint),
                         Toast.LENGTH_LONG
                     ).show()
                 }

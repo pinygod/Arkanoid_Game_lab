@@ -1,8 +1,6 @@
 package com.example.arkanoid_game.gameview
 
-import android.graphics.Bitmap
 import android.graphics.Canvas
-
 import android.view.SurfaceHolder
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
@@ -13,10 +11,6 @@ class DrawThread(private val holder: SurfaceHolder, private val gameView: GameVi
         private var canvas: Canvas? = null
     }
     private var runFlag = false
-    private val surfaceHolder: SurfaceHolder? = null
-    private val picture: Bitmap? = null
-
-    private val prevTime: Long = 0
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main
 

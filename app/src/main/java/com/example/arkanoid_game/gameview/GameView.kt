@@ -2,8 +2,10 @@ package com.example.arkanoid_game.gameview
 
 import android.app.Activity
 import android.content.res.Resources
-import android.graphics.*
-import android.media.MediaPlayer
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.PixelFormat
+import android.graphics.PorterDuff
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import androidx.core.content.ContextCompat
@@ -17,7 +19,7 @@ import kotlinx.coroutines.*
 
 class GameView(private val activity: Activity, private val viewModel: GameViewModel) :
     SurfaceView(activity),
-    SurfaceHolder.Callback  {
+    SurfaceHolder.Callback {
 
     companion object {
         const val DISTANCE_BETWEEN_UPDATES = 15
@@ -25,16 +27,19 @@ class GameView(private val activity: Activity, private val viewModel: GameViewMo
 
     private val screenWidth = Resources.getSystem().displayMetrics.widthPixels
     private val screenHeight = Resources.getSystem().displayMetrics.heightPixels
-    private var lvl = 1;
+    private var lvl = 1
     private var gameThread: DrawThread? = null
 
     private var elapsedTime: Long = 0
     private var delayTime: Long = 10000L
     private var now: Long = 0
-    private var countForSpawn = 20;
+    private var countForSpawn = 20
 
     private val platform =
-        PlayerPlatform(context, ContextCompat.getDrawable(activity, R.drawable.movingplatform)!!.toBitmap())
+        PlayerPlatform(
+            context,
+            ContextCompat.getDrawable(activity, R.drawable.movingplatform)!!.toBitmap()
+        )
     private var ball = Ball(ContextCompat.getDrawable(activity, R.drawable.m2)!!.toBitmap())
     private var enemy = ContextCompat.getDrawable(activity, R.drawable.enemy2)!!.toBitmap()
     private var enemy2 = ContextCompat.getDrawable(activity, R.drawable.enemy3_2)!!.toBitmap()
@@ -124,21 +129,19 @@ class GameView(private val activity: Activity, private val viewModel: GameViewMo
                             val count = screenWidth / (enemy.width + Enemy.MARGIN)
                             val margins = Enemy.MARGIN * (count - 1)
                             val startX = (screenWidth - (count * enemy.width) - margins) / 2
-                            if (countForSpawn>=0) {
+                            if (countForSpawn >= 0) {
                                 Enemy(enemy, lvl, 1, startX) // mb random hp and cost
-                            }
-                            else {
-                                countForSpawn = 6/lvl*3
-                                Enemy(enemy2, 2*lvl, 2, startX)
+                            } else {
+                                countForSpawn = 6 / lvl * 3
+                                Enemy(enemy2, 2 * lvl, 2, startX)
                             }
 
                         } else
-                            if (countForSpawn>=0) {
+                            if (countForSpawn >= 0) {
                                 Enemy(enemy, lvl, 1, enemies.last().getRight() + Enemy.MARGIN)
-                            }
-                            else {
-                                countForSpawn = 6/lvl*3
-                                Enemy(enemy2, 2*lvl, 2, enemies.last().getRight() + Enemy.MARGIN)
+                            } else {
+                                countForSpawn = 6 / lvl * 3
+                                Enemy(enemy2, 2 * lvl, 2, enemies.last().getRight() + Enemy.MARGIN)
                             }
 
                         enemies.add(enemy)
@@ -154,22 +157,22 @@ class GameView(private val activity: Activity, private val viewModel: GameViewMo
         }
     }
 
-    fun setFirstLvl(){
-        lvl = 1;
-        delayTime = 12000L;
+    fun setFirstLvl() {
+        lvl = 1
+        delayTime = 12000L
         countForSpawn = 18
     }
 
-    fun setSecondLvl(){
-        lvl = 2;
-        delayTime = 8000L;
-        countForSpawn = 9;
+    fun setSecondLvl() {
+        lvl = 2
+        delayTime = 8000L
+        countForSpawn = 9
     }
 
-    fun setThirdLvl(){
-        lvl = 3;
-        delayTime = 5000L;
-        countForSpawn = 6;
+    fun setThirdLvl() {
+        lvl = 3
+        delayTime = 5000L
+        countForSpawn = 6
     }
 
     fun pauseGame() {

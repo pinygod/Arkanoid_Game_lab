@@ -1,7 +1,6 @@
 package com.example.arkanoid_game
 
 import android.app.Activity
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.example.arkanoid_game.data.RankingItem
 import com.example.arkanoid_game.data.SessionResult

@@ -16,14 +16,14 @@ class Enemy(bitmap: Bitmap, private val cost: Int, var hp: Int, x: Int = 10, y: 
 
     fun hit() {
         hp--
-      /*  return if (hp <= 0)
-            cost
-        else
-            0*/
+        /*  return if (hp <= 0)
+              cost
+          else
+              0*/
         //later big enemies will return partition hit
     }
 
-    fun getCost() : Int{
+    fun getCost(): Int {
         return cost
     }
 
@@ -31,8 +31,8 @@ class Enemy(bitmap: Bitmap, private val cost: Int, var hp: Int, x: Int = 10, y: 
         move(0, verticalVelocity)
     }
 
-    fun setVelocity(speed : Int) {
-         verticalVelocity = speed
+    fun setVelocity(speed: Int) {
+        verticalVelocity = speed
     }
 
     override fun reset() {

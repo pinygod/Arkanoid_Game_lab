@@ -1,7 +1,6 @@
 package com.example.arkanoid_game.objects
 
 import android.graphics.Bitmap
-import kotlin.math.absoluteValue
 
 class Ball(bitmap: Bitmap) : GameObject(bitmap) {
 
@@ -9,8 +8,8 @@ class Ball(bitmap: Bitmap) : GameObject(bitmap) {
         reset()
     }
 
-    var horizontalVelocity = 18
-    var verticalVelocity = -18
+    private var horizontalVelocity = 18
+    private var verticalVelocity = -18
 
     override fun update() {
         move(horizontalVelocity, verticalVelocity)

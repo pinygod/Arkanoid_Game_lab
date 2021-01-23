@@ -12,15 +12,15 @@ import com.example.arkanoid_game.databinding.ActivityGameBinding
 import com.example.arkanoid_game.gameview.GameView
 
 class GameActivity : AppCompatActivity() {
-    private val viewModel : GameViewModel by lazy { GameViewModel(this) }
-    private val gameView : GameView by lazy { GameView(this, viewModel) }
+    private val viewModel: GameViewModel by lazy { GameViewModel(this) }
+    private val gameView: GameView by lazy { GameView(this, viewModel) }
     private lateinit var binding: ActivityGameBinding
+    private lateinit var mediaPlayer: MediaPlayer
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_game)
-        val mediaPlayer = MediaPlayer.create(this, R.raw.grasslandstheme)
-       mediaPlayer.isLooping=true
-        mediaPlayer.start()
+        includeMusic()
+
         binding.apply {
             lifecycleOwner = this@GameActivity
             gameEnded = viewModel.isEnded
@@ -66,7 +66,6 @@ class GameActivity : AppCompatActivity() {
                 gameView.startGame()
                 gameView.setThirdLvl()
             }
-
         }
 
         gameView.layoutParams = ViewGroup.LayoutParams(
@@ -76,9 +75,20 @@ class GameActivity : AppCompatActivity() {
         binding.surfaceHolder.addView(gameView)
     }
 
+    private fun includeMusic() {
+        mediaPlayer = MediaPlayer.create(this, R.raw.grasslandstheme)
+        mediaPlayer.isLooping = true
+    }
+
     override fun onPause() {
         gameView.pauseGame()
+        mediaPlayer.stop()
         super.onPause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mediaPlayer.start()
     }
 
     override fun onDestroy() {

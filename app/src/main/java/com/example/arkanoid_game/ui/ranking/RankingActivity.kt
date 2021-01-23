@@ -13,12 +13,13 @@ import com.example.arkanoid_game.databinding.ActivityRankingBinding
 
 
 class RankingActivity : AppCompatActivity() {
-    private lateinit var viewModel : RankingViewModel
+    private lateinit var viewModel: RankingViewModel
     private lateinit var binding: ActivityRankingBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this,
+        binding = DataBindingUtil.setContentView(
+            this,
             R.layout.activity_ranking
         )
         viewModel = ViewModelProviders.of(this,

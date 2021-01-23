@@ -10,8 +10,10 @@ class MenuModel {
             .getString(Constants.USERNAME_KEY, null)
     }
 
-    fun saveUsername(activity: Activity, username: String){
-        activity.getSharedPreferences(Constants.APP_PREF_KEY, Context.MODE_PRIVATE).edit().putString(
-            Constants.USERNAME_KEY, username).apply()
+    fun saveUsername(activity: Activity, username: String) {
+        activity.getSharedPreferences(Constants.APP_PREF_KEY, Context.MODE_PRIVATE).edit()
+            .putString(
+                Constants.USERNAME_KEY, username
+            ).apply()
     }
 }

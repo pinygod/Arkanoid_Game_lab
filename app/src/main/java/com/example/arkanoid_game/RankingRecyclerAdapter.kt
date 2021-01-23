@@ -27,7 +27,7 @@ class RankingRecyclerAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val item = (items[position] as RankingItem)
+        val item = items[position]
         (holder as NoteViewHolder).name.text = item.name
         holder.score.text = item.result?.score.toString()
     }
@@ -37,7 +37,7 @@ class RankingRecyclerAdapter(
         return items.size
     }
 
-    fun updateList(list: ArrayList<RankingItem>){
+    fun updateList(list: ArrayList<RankingItem>) {
         this.items.clear()
         this.items.addAll(list)
         this.notifyDataSetChanged()

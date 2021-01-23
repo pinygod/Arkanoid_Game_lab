@@ -14,7 +14,6 @@ class PlayerPlatform(context: Context, bitmap: Bitmap) : GameObject(bitmap),
     }
 
     private var horizontalVelocity = 0
-    private var velocity = 5
 
     init {
         reset()

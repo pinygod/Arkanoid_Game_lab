@@ -33,14 +33,14 @@ class GameViewModel(private val activity: Activity) : ViewModel() {
         isGameRunning.value = true
     }
 
-    fun reset(){
+    fun reset() {
         score.value = 0
         isPaused.value = false
         isEnded.value = false
         isGameRunning.value = false
     }
 
-    fun increaseScore(score : Int){
+    fun increaseScore(score: Int) {
         this.score.value = this.score.value?.plus(score)
     }
 }

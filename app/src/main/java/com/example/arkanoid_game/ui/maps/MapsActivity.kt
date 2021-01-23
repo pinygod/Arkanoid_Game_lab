@@ -22,11 +22,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var viewModel: MapsViewModel
-    private lateinit var binding : ActivityMapsBinding
+    private lateinit var binding: ActivityMapsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this,
+        binding = DataBindingUtil.setContentView(
+            this,
             R.layout.activity_maps
         )
         viewModel = ViewModelProviders.of(this,
@@ -67,7 +68,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun addMarkers() {
         viewModel.playersResults.value?.forEach { item ->
-            if (item.result?.latitude != null && item.result?.longitude != null) {
+            if (item.result?.latitude != null && item.result.longitude != null) {
                 mMap.addMarker(
                     MarkerOptions()
                         .position(LatLng(item.result.latitude, item.result.longitude))

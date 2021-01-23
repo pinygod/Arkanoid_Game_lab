@@ -45,7 +45,10 @@ class NotificationsService : Service() {
         isServiceStarted = true
         wakeLock =
             (getSystemService(Context.POWER_SERVICE) as PowerManager).run {
-                newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "ArkanoidNotificationsService::lock").apply {
+                newWakeLock(
+                    PowerManager.PARTIAL_WAKE_LOCK,
+                    "ArkanoidNotificationsService::lock"
+                ).apply {
                     acquire()
                 }
             }
