@@ -1,6 +1,7 @@
 package com.example.arkanoid_game.ui.game
 
 import android.content.Intent
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ViewGroup
@@ -17,7 +18,9 @@ class GameActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_game)
-
+        val mediaPlayer = MediaPlayer.create(this, R.raw.grasslandstheme)
+       mediaPlayer.isLooping=true
+        mediaPlayer.start()
         binding.apply {
             lifecycleOwner = this@GameActivity
             gameEnded = viewModel.isEnded
@@ -33,14 +36,17 @@ class GameActivity : AppCompatActivity() {
                 gameView.resumeGame()
             }
             exitButton.setOnClickListener {
+                mediaPlayer.stop()
                 AppHelper.playClickSound(this@GameActivity)
                 finish()
             }
             exitButtonLost.setOnClickListener {
+                mediaPlayer.stop()
                 AppHelper.playClickSound(this@GameActivity)
                 finish()
             }
             restartButton.setOnClickListener {
+                mediaPlayer.stop()
                 AppHelper.playClickSound(this@GameActivity)
                 startActivity(Intent(this@GameActivity, GameActivity::class.java))
                 finish()

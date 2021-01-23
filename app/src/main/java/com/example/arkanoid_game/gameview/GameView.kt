@@ -3,6 +3,7 @@ package com.example.arkanoid_game.gameview
 import android.app.Activity
 import android.content.res.Resources
 import android.graphics.*
+import android.media.MediaPlayer
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import androidx.core.content.ContextCompat
@@ -16,7 +17,7 @@ import kotlinx.coroutines.*
 
 class GameView(private val activity: Activity, private val viewModel: GameViewModel) :
     SurfaceView(activity),
-    SurfaceHolder.Callback {
+    SurfaceHolder.Callback  {
 
     companion object {
         const val DISTANCE_BETWEEN_UPDATES = 15
@@ -45,10 +46,9 @@ class GameView(private val activity: Activity, private val viewModel: GameViewMo
     private var enemyJob: Job = Job()
 
     init {
-
         holder.addCallback(this)
         setZOrderOnTop(true)
-        holder.setFormat(PixelFormat.TRANSLUCENT)
+        holder.setFormat(PixelFormat.TRANSPARENT)
         countOfEnemies = screenWidth / (enemy.width + Enemy.MARGIN)
     }
 
@@ -69,7 +69,6 @@ class GameView(private val activity: Activity, private val viewModel: GameViewMo
 
         if (canvas != null) {
             canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
-
             platform.draw(canvas)
             ball.draw(canvas)
             enemies.forEach {
@@ -85,6 +84,7 @@ class GameView(private val activity: Activity, private val viewModel: GameViewMo
 
 
         if (ball.getBottom() >= platform.getBottom()) {
+            viewModel.saveScore()
             endGame()
         }
 
@@ -98,6 +98,7 @@ class GameView(private val activity: Activity, private val viewModel: GameViewMo
             enemy.update()
 
             if (enemy.getBottom() >= screenHeight) {
+                viewModel.saveScore()
                 endGame()
             } else if (ball.getRight() >= enemy.getLeft() && ball.getLeft() <= enemy.getRight() && ball.getBottom() >= enemy.getTop() && ball.getTop() <= enemy.getBottom()) {
                 enemy.hit()
@@ -123,20 +124,20 @@ class GameView(private val activity: Activity, private val viewModel: GameViewMo
                             val count = screenWidth / (enemy.width + Enemy.MARGIN)
                             val margins = Enemy.MARGIN * (count - 1)
                             val startX = (screenWidth - (count * enemy.width) - margins) / 2
-                            if (countForSpawn!=0) {
+                            if (countForSpawn>=0) {
                                 Enemy(enemy, lvl, 1, startX) // mb random hp and cost
                             }
                             else {
-                                countForSpawn = lvl*3 + 5
+                                countForSpawn = 6/lvl*3
                                 Enemy(enemy2, 2*lvl, 2, startX)
                             }
 
                         } else
-                            if (countForSpawn!=0) {
+                            if (countForSpawn>=0) {
                                 Enemy(enemy, lvl, 1, enemies.last().getRight() + Enemy.MARGIN)
                             }
                             else {
-                                countForSpawn = lvl*3 + 5
+                                countForSpawn = 6/lvl*3
                                 Enemy(enemy2, 2*lvl, 2, enemies.last().getRight() + Enemy.MARGIN)
                             }
 
@@ -156,19 +157,19 @@ class GameView(private val activity: Activity, private val viewModel: GameViewMo
     fun setFirstLvl(){
         lvl = 1;
         delayTime = 12000L;
-        countForSpawn = 20
+        countForSpawn = 18
     }
 
     fun setSecondLvl(){
         lvl = 2;
         delayTime = 8000L;
-        countForSpawn = 15;
+        countForSpawn = 9;
     }
 
     fun setThirdLvl(){
         lvl = 3;
         delayTime = 5000L;
-        countForSpawn = 10;
+        countForSpawn = 6;
     }
 
     fun pauseGame() {

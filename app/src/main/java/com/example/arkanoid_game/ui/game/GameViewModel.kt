@@ -24,7 +24,6 @@ class GameViewModel(private val activity: Activity) : ViewModel() {
     }
 
     fun endGame() {
-        saveScore()
         pauseGame()
         isEnded.value = true
     }
