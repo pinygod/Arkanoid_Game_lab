@@ -2,12 +2,8 @@ package com.example.arkanoid_game.gameview
 
 import android.app.Activity
 import android.content.res.Resources
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.PixelFormat
-import android.graphics.PorterDuff
-import android.view.SurfaceHolder
-import android.view.SurfaceView
+import android.graphics.*
+import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.example.arkanoid_game.R
@@ -17,14 +13,15 @@ import com.example.arkanoid_game.objects.PlayerPlatform
 import com.example.arkanoid_game.ui.game.GameViewModel
 import kotlinx.coroutines.*
 
-class GameView(private val activity: Activity, private val viewModel: GameViewModel) :
-    SurfaceView(activity),
-    SurfaceHolder.Callback {
 
+class GameView(private val activity: Activity, private val viewModel: GameViewModel) :
+    View(activity) {
     companion object {
-        const val DISTANCE_BETWEEN_UPDATES = 15
+
+        const val DISTANCE_BETWEEN_UPDATES = 30
     }
 
+    var canvas: Canvas = Canvas()
     private val screenWidth = Resources.getSystem().displayMetrics.widthPixels
     private val screenHeight = Resources.getSystem().displayMetrics.heightPixels
     private var lvl = 1
@@ -47,38 +44,23 @@ class GameView(private val activity: Activity, private val viewModel: GameViewMo
 
     private val enemies = ArrayList<Enemy>()
     private val countOfEnemies: Int
-
     private var enemyJob: Job = Job()
 
     init {
-        holder.addCallback(this)
-        setZOrderOnTop(true)
-        holder.setFormat(PixelFormat.TRANSPARENT)
         countOfEnemies = screenWidth / (enemy.width + Enemy.MARGIN)
-    }
-
-    override fun surfaceChanged(p0: SurfaceHolder, p1: Int, p2: Int, p3: Int) {
-
-    }
-
-    override fun surfaceDestroyed(p0: SurfaceHolder) {
-        gameThread?.stop()
-    }
-
-    override fun surfaceCreated(p0: SurfaceHolder) {
-
+        setBackgroundColor(Color.TRANSPARENT)
     }
 
     override fun draw(canvas: Canvas?) {
         super.draw(canvas)
 
         if (canvas != null) {
-            canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
             platform.draw(canvas)
             ball.draw(canvas)
             enemies.forEach {
                 it.draw(canvas)
             }
+            invalidate()
         } else
             return
     }
@@ -193,7 +175,7 @@ class GameView(private val activity: Activity, private val viewModel: GameViewMo
 
     fun startGame() {
         viewModel.startGame()
-        gameThread = DrawThread(holder, this)
+        gameThread = DrawThread(this)
         gameThread?.start()
         enemyJob = createEnemies()
     }
@@ -206,4 +188,5 @@ class GameView(private val activity: Activity, private val viewModel: GameViewMo
         }
         viewModel.endGame()
     }
+
 }

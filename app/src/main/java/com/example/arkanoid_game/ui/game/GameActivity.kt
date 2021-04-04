@@ -12,8 +12,8 @@ import com.example.arkanoid_game.databinding.ActivityGameBinding
 import com.example.arkanoid_game.gameview.GameView
 
 class GameActivity : AppCompatActivity() {
-    private val viewModel: GameViewModel by lazy { GameViewModel(this) }
-    private val gameView: GameView by lazy { GameView(this, viewModel) }
+    private val viewModel by lazy { GameViewModel(this) }
+    private val gameView by lazy { GameView(this, viewModel) }
     private lateinit var binding: ActivityGameBinding
     private lateinit var mediaPlayer: MediaPlayer
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,7 +72,7 @@ class GameActivity : AppCompatActivity() {
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT
         )
-        binding.surfaceHolder.addView(gameView)
+        binding.elementsHolder.addView(gameView, 0)
     }
 
     private fun includeMusic() {

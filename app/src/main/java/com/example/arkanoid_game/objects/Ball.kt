@@ -8,8 +8,8 @@ class Ball(bitmap: Bitmap) : GameObject(bitmap) {
         reset()
     }
 
-    private var horizontalVelocity = 18
-    private var verticalVelocity = -18
+    private var horizontalVelocity = 11
+    private var verticalVelocity = -11
 
     override fun update() {
         move(horizontalVelocity, verticalVelocity)

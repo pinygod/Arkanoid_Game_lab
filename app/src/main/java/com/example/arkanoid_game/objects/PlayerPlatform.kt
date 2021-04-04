@@ -11,6 +11,7 @@ class PlayerPlatform(context: Context, bitmap: Bitmap) : GameObject(bitmap),
     SensorEventListener {
     companion object {
         private const val MARGIN = 15
+        private const val DEFAULT_VELOCITY = 15
     }
 
     private var horizontalVelocity = 0
@@ -35,8 +36,8 @@ class PlayerPlatform(context: Context, bitmap: Bitmap) : GameObject(bitmap),
                 horizontalVelocity.coerceAtMost(screenWidth - this.getLeft())
 
 
-            if (horizontalVelocity > 18) horizontalVelocity = 18
-            if (horizontalVelocity < -18) horizontalVelocity = -18
+            if (horizontalVelocity > DEFAULT_VELOCITY) horizontalVelocity = DEFAULT_VELOCITY
+            if (horizontalVelocity < -DEFAULT_VELOCITY) horizontalVelocity = -DEFAULT_VELOCITY
         }
     }
 

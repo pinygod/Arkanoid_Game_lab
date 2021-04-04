@@ -34,6 +34,7 @@ abstract class GameObject(private val image: Bitmap) {
     }
 
     fun draw(canvas: Canvas) {
+
         canvas.drawBitmap(image, x.toFloat(), y.toFloat(), null)
     }
 

@@ -15,6 +15,7 @@ class MenuViewModel : ViewModel() {
 
     fun changeUsername(activity: MenuActivity, username: String) {
         model?.saveUsername(activity, username)
+        this.username.value = username
     }
 
     fun onDestroy() {
